@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "482362253235",
+    "project_id": "quoteverse-cc277",
+    "storage_bucket": "quoteverse-cc277.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482362253235:android:405c047222a1a76bb9b5c6",
+        "android_client_info": {
+          "package_name": "uk.ac.tees.mad.quoteverse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmcOb9_I1YlCH3GzqN7Lg1Y7scfEEHNwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

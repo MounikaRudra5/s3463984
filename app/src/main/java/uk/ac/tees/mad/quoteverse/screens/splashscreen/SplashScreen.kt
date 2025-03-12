@@ -28,9 +28,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import uk.ac.tees.mad.quoteverse.utils.Constants
+import uk.ac.tees.mad.quoteverse.viewmodel.AuthenticationViewModel
 
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(
+    viewModel: AuthenticationViewModel,
+    navController: NavController) {
     val fadeInDuration = 1500
     var fadeInText by remember { mutableStateOf(false) }
 
@@ -38,7 +41,9 @@ fun SplashScreen(navController: NavController) {
         delay(500)
         fadeInText = true
         delay(fadeInDuration.toLong())
-        navController.navigate(Constants.MAINSCREEN){
+        navController.navigate(
+            if (viewModel.getCurrentUser()!=null) Constants.MAINSCREEN
+            else Constants.LOGINSCREEN){
             popUpTo(Constants.SPLASHSCREEN){
                 inclusive = true
             }

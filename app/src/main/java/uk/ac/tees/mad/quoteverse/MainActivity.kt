@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             QuoteVerseTheme {
-                MyApp()
+                MyApp(this.application)
             }
         }
     }
