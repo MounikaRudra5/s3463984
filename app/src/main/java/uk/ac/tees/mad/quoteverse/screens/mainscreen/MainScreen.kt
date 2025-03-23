@@ -1,42 +1,39 @@
 package uk.ac.tees.mad.quoteverse.screens.mainscreen
 
-import android.provider.ContactsContract.Contacts
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import uk.ac.tees.mad.quoteverse.utils.Constants
-import uk.ac.tees.mad.quoteverse.viewmodel.AuthenticationViewModel
+import androidx.compose.ui.tooling.preview.Preview
+import uk.ac.tees.mad.quoteverse.screens.favorite.FavoriteScreen
+import uk.ac.tees.mad.quoteverse.screens.home.HomeScreen
+import uk.ac.tees.mad.quoteverse.screens.settings.SettingsScreen
+import uk.ac.tees.mad.quoteverse.ui.theme.QuoteVerseTheme
 
 @Composable
 fun MainScreen(
-    viewModel: AuthenticationViewModel,
-    navController: NavController,
-    modifier: Modifier = Modifier) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxSize()) {
-        Column {
-            Text("Welcome to QuoteVerse")
-            Spacer(modifier = Modifier.height(48.dp))
-            Button(onClick = {
-                viewModel.logOut()
-                navController.navigate(Constants.LOGINSCREEN){
-                    popUpTo(Constants.MAINSCREEN){
-                        inclusive = true
-                    }
-                }
-            }) {
-                Text("Log out")
-            }
+    ) {
+    var selectedItem by rememberSaveable { mutableIntStateOf(0) }
+    Scaffold(
+        bottomBar = { MyBottomNavigationBar(selectedItem, onClick = {selectedItem=it}) }
+    ) { padding->
+
+        when(selectedItem){
+            0-> HomeScreen(modifier = Modifier.padding(padding))
+            1-> FavoriteScreen(modifier = Modifier.padding(padding))
+            2 -> SettingsScreen(modifier = Modifier.padding(padding))
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MainPrev() {
+    QuoteVerseTheme {
+        MainScreen()
     }
 }

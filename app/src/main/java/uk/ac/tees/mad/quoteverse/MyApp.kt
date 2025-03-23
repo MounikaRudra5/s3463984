@@ -25,7 +25,7 @@ fun MyApp(application: Application) {
         }
 
         composable(Constants.MAINSCREEN) {
-            MainScreen(authenticationViewModel, navController)
+            MainScreen()
         }
 
         composable(Constants.LOGINSCREEN){
