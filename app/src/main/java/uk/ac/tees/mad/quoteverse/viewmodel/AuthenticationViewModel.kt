@@ -1,10 +1,9 @@
 package uk.ac.tees.mad.quoteverse.viewmodel
 
-import android.app.Application
 import android.content.Context
 import android.util.Patterns
 import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -12,7 +11,7 @@ import com.google.firebase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class AuthenticationViewModel(application: Application):AndroidViewModel(application) {
+class AuthenticationViewModel :ViewModel() {
     private var auth: FirebaseAuth = Firebase.auth
 
     private val _name = MutableStateFlow("")

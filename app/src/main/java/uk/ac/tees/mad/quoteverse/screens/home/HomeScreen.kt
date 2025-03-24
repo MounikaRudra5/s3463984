@@ -2,14 +2,14 @@ package uk.ac.tees.mad.quoteverse.screens.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,9 +19,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uk.ac.tees.mad.quoteverse.screens.mainscreen.SearchBar
+import uk.ac.tees.mad.quoteverse.viewmodel.HomeViewModel
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    viewModel: HomeViewModel,
+    modifier: Modifier = Modifier,
+    ) {
+    val quotes by viewModel.quotes.collectAsState()
     var searchQuery by remember { mutableStateOf("") }
     Box(modifier = modifier
         .fillMaxSize()
@@ -35,10 +40,10 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             LazyColumn {
-                items(10){
+                items(quotes){quote->
                     QuoteItem(
-                        "$it It's good to work as long as you want.",
-                        "ramesh",
+                        quote.q,
+                        quote.a,
                         {},
                         {},
                         {}

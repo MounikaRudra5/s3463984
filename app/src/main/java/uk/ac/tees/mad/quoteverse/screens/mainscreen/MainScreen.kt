@@ -8,32 +8,24 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import uk.ac.tees.mad.quoteverse.screens.favorite.FavoriteScreen
 import uk.ac.tees.mad.quoteverse.screens.home.HomeScreen
 import uk.ac.tees.mad.quoteverse.screens.settings.SettingsScreen
-import uk.ac.tees.mad.quoteverse.ui.theme.QuoteVerseTheme
+import uk.ac.tees.mad.quoteverse.viewmodel.HomeViewModel
 
 @Composable
 fun MainScreen(
-    ) {
+    homeViewModel: HomeViewModel
+) {
     var selectedItem by rememberSaveable { mutableIntStateOf(0) }
     Scaffold(
         bottomBar = { MyBottomNavigationBar(selectedItem, onClick = {selectedItem=it}) }
     ) { padding->
 
         when(selectedItem){
-            0-> HomeScreen(modifier = Modifier.padding(padding))
+            0-> HomeScreen(homeViewModel, modifier = Modifier.padding(padding))
             1-> FavoriteScreen(modifier = Modifier.padding(padding))
             2 -> SettingsScreen(modifier = Modifier.padding(padding))
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun MainPrev() {
-    QuoteVerseTheme {
-        MainScreen()
     }
 }
