@@ -5,4 +5,5 @@ object Constants {
     const val MAINSCREEN = "main_screen"
     const val LOGINSCREEN = "login_screen"
     const val SIGNUPSCREEN = "signup_screen"
+    const val QUOTEDETAILSCREEN = "quote_detail_screen"
 }
