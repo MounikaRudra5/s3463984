@@ -27,7 +27,7 @@ fun MainScreen(
         when(selectedItem){
             0-> HomeScreen(homeViewModel, navController, modifier = Modifier.padding(padding))
             1-> FavoriteScreen(modifier = Modifier.padding(padding))
-            2 -> SettingsScreen(modifier = Modifier.padding(padding))
+            2 -> SettingsScreen(navController,modifier = Modifier.padding(padding))
         }
     }
 }

@@ -10,6 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,18 +26,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import uk.ac.tees.mad.quoteverse.R
 
 @Composable
-fun QuoteItemScreen(quote: String, author: String) {
+fun QuoteItemScreen(
+    quote: String,
+    author: String,
+    onCopyClick: () -> Unit,
+    onFavoriteClick: () -> Unit,
+    onShareClick: () -> Unit,
+) {
     var visible by remember { mutableStateOf(false) }
 
-    // Trigger animation after a small delay
     LaunchedEffect(Unit) {
         delay(200)
         visible = true
@@ -42,7 +55,11 @@ fun QuoteItemScreen(quote: String, author: String) {
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFF1D1E33), Color(0xFF111328)),
+                    colors = listOf(
+                        MaterialTheme.colorScheme.onPrimary,
+                        MaterialTheme.colorScheme.onSecondary,
+                        MaterialTheme.colorScheme.onTertiary
+                    ),
                     startY = 0f,
                     endY = Float.POSITIVE_INFINITY
                 )
@@ -57,7 +74,7 @@ fun QuoteItemScreen(quote: String, author: String) {
                 Text(
                     text = "❝",
                     fontSize = 48.sp,
-                    color = Color(0xFFFFD700),
+                    color = MaterialTheme.colorScheme.surfaceVariant,
                     fontWeight = FontWeight.ExtraBold,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -66,7 +83,7 @@ fun QuoteItemScreen(quote: String, author: String) {
                     text = quote,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
                     lineHeight = 32.sp,
                     modifier = Modifier.padding(horizontal = 16.dp)
@@ -75,7 +92,7 @@ fun QuoteItemScreen(quote: String, author: String) {
                 Text(
                     text = "❞",
                     fontSize = 48.sp,
-                    color = Color(0xFFFFD700),
+                    color = MaterialTheme.colorScheme.surfaceVariant,
                     fontWeight = FontWeight.ExtraBold,
                     textAlign = TextAlign.End,
                     modifier = Modifier.fillMaxWidth()
@@ -85,7 +102,36 @@ fun QuoteItemScreen(quote: String, author: String) {
                     text = "- $author",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Light,
-                    color = Color(0xFFFFA500)
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            }
+        }
+
+        Column(
+            modifier = Modifier.align(Alignment.BottomEnd)
+                .padding(end = 16.dp, bottom = 66.dp)
+        ) {
+            IconButton(onClick = onCopyClick) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.baseline_content_copy_24),
+                    contentDescription = "Copy",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            IconButton(onClick = onFavoriteClick) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Favorite",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            IconButton(onClick = onShareClick) {
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = "Share",
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }

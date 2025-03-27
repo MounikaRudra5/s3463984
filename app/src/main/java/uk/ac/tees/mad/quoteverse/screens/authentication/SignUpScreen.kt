@@ -1,6 +1,7 @@
 package uk.ac.tees.mad.quoteverse.screens.authentication
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -59,12 +60,15 @@ fun SignUpScreen(
         }
     }
     Box(
-        modifier = modifier.fillMaxSize()) {
+        modifier = modifier.fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.surface)
+    ) {
         Column(modifier = Modifier.padding(horizontal = 10.dp)) {
             Spacer(modifier = Modifier.height(48.dp))
             Text("Create Account",
                 style = MaterialTheme.typography.titleLarge,
                 fontSize = 36.sp,
+                color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold
             )
 
@@ -109,26 +113,29 @@ fun SignUpScreen(
                 },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
+                        containerColor = MaterialTheme.colorScheme.secondary
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text("Sign Up")
                 }
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth()) {
+                    Text("Already have an account?",
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Text(" Log in",
+                        color = MaterialTheme.colorScheme.secondary,
+                        modifier = Modifier.clickable {
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .fillMaxWidth()) {
-                Text("Already have an account?")
-                Text(" Log in",
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable {
-                        navController.popBackStack()
-                    }
-                )
-            }
+
         }
     }
 }

@@ -21,7 +21,7 @@ import uk.ac.tees.mad.quoteverse.viewmodel.HomeViewModel
 @Composable
 fun MyApp() {
     val navController = rememberNavController()
-    val authenticationViewModel:AuthenticationViewModel = viewModel()
+    val authenticationViewModel = AuthenticationViewModel()
     val homeViewModel:HomeViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = Constants.SPLASHSCREEN) {

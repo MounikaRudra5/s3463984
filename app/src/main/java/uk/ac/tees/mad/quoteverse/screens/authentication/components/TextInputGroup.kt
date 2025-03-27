@@ -3,6 +3,7 @@ package uk.ac.tees.mad.quoteverse.screens.authentication.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ fun TextInputGroup(
     Column(modifier=modifier.padding(vertical = 8.dp)) {
         Text(
             text = headingText,
+            color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Bold
         )
         OutlinedTextField(

@@ -1,6 +1,7 @@
 package uk.ac.tees.mad.quoteverse.screens.authentication
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -57,12 +58,15 @@ fun LogInScreen(
             }
         }
     }
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()
+        .background(color = MaterialTheme.colorScheme.surface)
+    ) {
         Column(modifier = Modifier.padding(horizontal = 10.dp)) {
             Spacer(modifier = Modifier.height(48.dp))
             Text("Sign In",
                 style = MaterialTheme.typography.titleLarge,
                 fontSize = 36.sp,
+                color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold
                 )
 
@@ -100,26 +104,29 @@ fun LogInScreen(
                 },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
+                        containerColor = MaterialTheme.colorScheme.secondary
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text("Sign In")
                 }
-            }
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                .padding(top = 8.dp)
-                .fillMaxWidth()) {
-                Text("Don't have an account?")
-                Text(" Sign up",
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable {
-                        navController.navigate(Constants.SIGNUPSCREEN)
-                    }
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth()) {
+                    Text("Don't have an account?",
+                        color = MaterialTheme.colorScheme.primary
                     )
+                    Text(" Sign up",
+                        color = MaterialTheme.colorScheme.secondary,
+                        modifier = Modifier.clickable {
+                            navController.navigate(Constants.SIGNUPSCREEN)
+                        }
+                    )
+                }
             }
+
         }
     }
 }

@@ -25,6 +25,11 @@ fun QuoteDetailsScreen(
         state = pagerState,
         modifier = Modifier.fillMaxSize()
     ) { page ->
-        QuoteItemScreen(quote = quotes[page].q, author = quotes[page].a)
+        QuoteItemScreen(quote = quotes[page].q,
+            author = quotes[page].a,
+            {},
+            {},
+            {}
+            )
     }
 }

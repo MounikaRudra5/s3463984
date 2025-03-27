@@ -12,10 +12,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -40,7 +42,7 @@ fun QuoteItem(
     Card(
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor =MaterialTheme.colorScheme.surfaceContainer),
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -54,7 +56,7 @@ fun QuoteItem(
                 text = "❝ $quote ❞",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Center
             )
 
@@ -64,7 +66,7 @@ fun QuoteItem(
                 text = "- $author",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.tertiary,
                 textAlign = TextAlign.End,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -79,7 +81,7 @@ fun QuoteItem(
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.baseline_content_copy_24),
                         contentDescription = "Copy",
-                        tint = Color.Black
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
 
@@ -87,7 +89,7 @@ fun QuoteItem(
                     Icon(
                         imageVector = Icons.Default.Favorite,
                         contentDescription = "Favorite",
-                        tint = Color.Red
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
 
@@ -95,7 +97,7 @@ fun QuoteItem(
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = "Share",
-                        tint = Color.Black
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
             }

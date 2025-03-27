@@ -9,11 +9,19 @@ import uk.ac.tees.mad.quoteverse.data.remote.RetrofitInstance
 import uk.ac.tees.mad.quoteverse.model.QuoteResponse
 
 class HomeViewModel :ViewModel() {
+
     private val _quotes = MutableStateFlow(listOf<QuoteResponse>())
     val quotes:StateFlow<List<QuoteResponse>> get() = _quotes
 
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery:StateFlow<String> get() = _searchQuery
+
     init {
         fetchQuotes()
+    }
+
+    fun onSearchQueryChange(query:String){
+        _searchQuery.value = query
     }
 
 

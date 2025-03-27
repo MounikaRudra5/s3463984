@@ -6,16 +6,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,12 +28,12 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     ) {
     val quotes by viewModel.quotes.collectAsState()
-    var searchQuery by remember { mutableStateOf("") }
+    val searchQuery by viewModel.searchQuery.collectAsState()
     Box(modifier = modifier
         .fillMaxSize()
     ){
         Column {
-            SearchBar(searchQuery, onQueryChange = {searchQuery=it})
+            SearchBar(searchQuery, onQueryChange = {viewModel.onSearchQueryChange(it)})
             Text("Trending Quotes",
                 style = MaterialTheme.typography.titleLarge,
                 fontSize = 36.sp,
@@ -45,7 +41,9 @@ fun HomeScreen(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             LazyColumn {
-                itemsIndexed(quotes){index,quote->
+                itemsIndexed(quotes.filter {
+                    it.a.contains(searchQuery, ignoreCase = true) || it.q.contains(searchQuery, ignoreCase = true)
+                }){index,quote->
                     QuoteItem(
                         quote.q,
                         quote.a,
