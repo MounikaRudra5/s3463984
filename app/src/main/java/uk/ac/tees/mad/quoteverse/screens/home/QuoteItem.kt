@@ -29,13 +29,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uk.ac.tees.mad.quoteverse.R
+import uk.ac.tees.mad.quoteverse.model.FavoriteQuote
 
 @Composable
 fun QuoteItem(
     quote: String,
     author: String,
     onCopyClick: () -> Unit,
-    onFavoriteClick: () -> Unit,
+    onFavoriteClick: (String,String) -> Unit,
     onShareClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -85,7 +86,7 @@ fun QuoteItem(
                     )
                 }
 
-                IconButton(onClick = onFavoriteClick) {
+                IconButton(onClick = { onFavoriteClick(quote,author) }) {
                     Icon(
                         imageVector = Icons.Default.Favorite,
                         contentDescription = "Favorite",

@@ -2,7 +2,7 @@ package uk.ac.tees.mad.quoteverse
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -15,14 +15,16 @@ import uk.ac.tees.mad.quoteverse.screens.mainscreen.MainScreen
 import uk.ac.tees.mad.quoteverse.screens.splashscreen.SplashScreen
 import uk.ac.tees.mad.quoteverse.utils.Constants
 import uk.ac.tees.mad.quoteverse.viewmodel.AuthenticationViewModel
+import uk.ac.tees.mad.quoteverse.viewmodel.FavoriteViewModel
 import uk.ac.tees.mad.quoteverse.viewmodel.HomeViewModel
 
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
-fun MyApp() {
+fun MyAppNavigation() {
     val navController = rememberNavController()
-    val authenticationViewModel = AuthenticationViewModel()
-    val homeViewModel:HomeViewModel = viewModel()
+    val authenticationViewModel:AuthenticationViewModel = hiltViewModel()
+    val homeViewModel:HomeViewModel = hiltViewModel()
+    val favoriteViewModel:FavoriteViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = Constants.SPLASHSCREEN) {
         composable(Constants.SPLASHSCREEN) {
@@ -30,7 +32,7 @@ fun MyApp() {
         }
 
         composable(Constants.MAINSCREEN) {
-            MainScreen(homeViewModel, navController)
+            MainScreen(homeViewModel,favoriteViewModel, navController)
         }
 
         composable(Constants.LOGINSCREEN){

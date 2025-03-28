@@ -9,14 +9,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import uk.ac.tees.mad.quoteverse.data.local.FavoriteQuoteRepository
 import uk.ac.tees.mad.quoteverse.screens.favorite.FavoriteScreen
 import uk.ac.tees.mad.quoteverse.screens.home.HomeScreen
 import uk.ac.tees.mad.quoteverse.screens.settings.SettingsScreen
+import uk.ac.tees.mad.quoteverse.viewmodel.FavoriteViewModel
 import uk.ac.tees.mad.quoteverse.viewmodel.HomeViewModel
 
 @Composable
 fun MainScreen(
     homeViewModel: HomeViewModel,
+    favoriteViewModel: FavoriteViewModel,
     navController: NavController
 ) {
     var selectedItem by rememberSaveable { mutableIntStateOf(0) }
@@ -26,7 +29,7 @@ fun MainScreen(
 
         when(selectedItem){
             0-> HomeScreen(homeViewModel, navController, modifier = Modifier.padding(padding))
-            1-> FavoriteScreen(modifier = Modifier.padding(padding))
+            1-> FavoriteScreen(favoriteViewModel,modifier = Modifier.padding(padding))
             2 -> SettingsScreen(navController,modifier = Modifier.padding(padding))
         }
     }

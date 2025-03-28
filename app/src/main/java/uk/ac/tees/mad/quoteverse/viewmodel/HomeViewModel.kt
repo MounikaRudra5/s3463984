@@ -2,13 +2,23 @@ package uk.ac.tees.mad.quoteverse.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import uk.ac.tees.mad.quoteverse.data.local.FavoriteQuoteRepository
 import uk.ac.tees.mad.quoteverse.data.remote.RetrofitInstance
+import uk.ac.tees.mad.quoteverse.model.FavoriteQuote
 import uk.ac.tees.mad.quoteverse.model.QuoteResponse
+import javax.inject.Inject
 
-class HomeViewModel :ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repository: FavoriteQuoteRepository) :ViewModel() {
+
+    private var auth: FirebaseAuth = Firebase.auth
 
     private val _quotes = MutableStateFlow(listOf<QuoteResponse>())
     val quotes:StateFlow<List<QuoteResponse>> get() = _quotes
@@ -34,5 +44,15 @@ class HomeViewModel :ViewModel() {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun addFavorite(quote: FavoriteQuote) {
+        viewModelScope.launch {
+            repository.addFavoriteQuote(quote)
+        }
+    }
+
+    fun getUserId():String{
+        return auth.currentUser?.uid ?: "12"
     }
 }

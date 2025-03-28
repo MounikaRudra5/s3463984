@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import uk.ac.tees.mad.quoteverse.model.FavoriteQuote
 import uk.ac.tees.mad.quoteverse.screens.mainscreen.SearchBar
 import uk.ac.tees.mad.quoteverse.utils.Constants
 import uk.ac.tees.mad.quoteverse.viewmodel.HomeViewModel
@@ -48,7 +49,13 @@ fun HomeScreen(
                         quote.q,
                         quote.a,
                         {},
-                        {},
+                        {q,a->
+                            viewModel.addFavorite(FavoriteQuote(
+                                viewModel.getUserId(),
+                                q,
+                                a
+                            ))
+                        },
                         {},
                         modifier = Modifier.clickable {
                             navController.navigate(Constants.QUOTEDETAILSCREEN+"/"+index)
