@@ -8,11 +8,16 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import uk.ac.tees.mad.quoteverse.utils.Constants
 
 class AuthenticationViewModel :ViewModel() {
     private var auth: FirebaseAuth = Firebase.auth
+    private val db = Firebase.firestore
+
 
     private val _name = MutableStateFlow("")
     val name:StateFlow<String> get() = _name
@@ -56,6 +61,16 @@ class AuthenticationViewModel :ViewModel() {
             .addOnCompleteListener { task->
                 _isLoading.value = false
                 _loginSuccess.value = task.isSuccessful
+                if (task.isSuccessful){
+                    val uid = task.result.user?.uid
+                    db.collection(Constants.USER)
+                        .document(uid!!)
+                        .set(mapOf(
+                            "name" to _name.value,
+                            "email" to _email.value,
+                            "id" to uid
+                        ), SetOptions.merge())
+                }
             }
     }
 
@@ -66,10 +81,6 @@ class AuthenticationViewModel :ViewModel() {
                 _isLoading.value = false
                 _loginSuccess.value = task.isSuccessful
             }
-    }
-
-    fun logOut(){
-        auth.signOut()
     }
 
     fun validateLoginForm(context: Context):Boolean{

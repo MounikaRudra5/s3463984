@@ -6,4 +6,6 @@ object Constants {
     const val LOGINSCREEN = "login_screen"
     const val SIGNUPSCREEN = "signup_screen"
     const val QUOTEDETAILSCREEN = "quote_detail_screen"
+    const val USER = "User"
+    const val FAV_QUOTES = "favorite_quotes"
 }
