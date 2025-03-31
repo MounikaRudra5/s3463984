@@ -51,9 +51,9 @@ fun HomeScreen(
                         {},
                         {q,a->
                             viewModel.addFavorite(FavoriteQuote(
-                                viewModel.getUserId(),
-                                q,
-                                a
+                                userId = viewModel.getUserId(),
+                                quote = q,
+                                author = a
                             ))
                         },
                         {},

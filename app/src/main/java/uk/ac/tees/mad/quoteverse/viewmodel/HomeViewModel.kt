@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,11 +52,13 @@ class HomeViewModel @Inject constructor(private val repository: FavoriteQuoteRep
 
     fun addFavorite(quote: FavoriteQuote) {
         viewModelScope.launch {
-            repository.addFavoriteQuote(quote)
+            val generatedId = repository.addFavoriteQuote(quote)
+            val updatedQuote = quote.copy(id = generatedId)
             db.collection(Constants.USER)
                 .document(getUserId())
                 .collection(Constants.FAV_QUOTES)
-                .add(quote)
+                .document(updatedQuote.id.toString())
+                .set(updatedQuote, SetOptions.merge())
         }
     }
 

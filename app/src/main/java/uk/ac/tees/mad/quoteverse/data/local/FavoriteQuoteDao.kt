@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FavoriteQuoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addFavoriteQuote(quote:FavoriteQuoteEntity)
+    suspend fun addFavoriteQuote(quote: FavoriteQuoteEntity):Long
 
     @Query("SELECT * FROM favorite_quotes WHERE userId = :userId")
-    fun getFavoriteQuotes(userId:String): Flow<List<FavoriteQuoteEntity>>
+    fun getFavoriteQuotes(userId: String): Flow<List<FavoriteQuoteEntity>>
 
     @Delete
     suspend fun removeFavoriteQuote(quote: FavoriteQuoteEntity)

@@ -5,20 +5,22 @@ import kotlinx.coroutines.flow.map
 import uk.ac.tees.mad.quoteverse.model.FavoriteQuote
 
 class FavoriteQuoteRepositoryImpl(private val dao:FavoriteQuoteDao):FavoriteQuoteRepository {
-    override suspend fun addFavoriteQuote(quote: FavoriteQuote) {
-        dao.addFavoriteQuote(
+    override suspend fun addFavoriteQuote(quote: FavoriteQuote): Int {
+        val generatedId = dao.addFavoriteQuote(
             FavoriteQuoteEntity(
                 userId = quote.userId,
                 quote = quote.quote,
                 author = quote.author
             )
         )
+        return generatedId.toInt()
     }
 
     override fun getFavoriteQuotes(userId: String): Flow<List<FavoriteQuote>> {
         return dao.getFavoriteQuotes(userId).map { list ->
             list.map { entity ->
                 FavoriteQuote(
+                    id = entity.id,
                     userId = entity.userId,
                     quote = entity.quote,
                     author = entity.author
@@ -30,6 +32,7 @@ class FavoriteQuoteRepositoryImpl(private val dao:FavoriteQuoteDao):FavoriteQuot
     override suspend fun removeFavoriteQuote(quote: FavoriteQuote) {
         dao.removeFavoriteQuote(
             FavoriteQuoteEntity(
+                id = quote.id,
                 userId = quote.userId,
                 quote = quote.quote,
                 author = quote.author

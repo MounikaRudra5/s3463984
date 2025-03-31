@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.quoteverse.screens.home
+package uk.ac.tees.mad.quoteverse.screens.favorite
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -27,20 +27,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import uk.ac.tees.mad.quoteverse.R
+import uk.ac.tees.mad.quoteverse.model.FavoriteQuote
 
 @Composable
-fun QuoteItem(
-    quote: String,
-    author: String,
+fun FavQuoteItem(
+    favoriteQuote: FavoriteQuote,
     onCopyClick: () -> Unit,
-    onFavoriteClick: (String,String) -> Unit,
     onShareClick: () -> Unit,
+    onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor =MaterialTheme.colorScheme.surfaceContainer),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -51,7 +51,7 @@ fun QuoteItem(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "❝ $quote ❞",
+                text = "❝ ${favoriteQuote.quote} ❞",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.primary,
@@ -61,7 +61,7 @@ fun QuoteItem(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "- $author",
+                text = "- ${favoriteQuote.author}",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.tertiary,
@@ -83,14 +83,6 @@ fun QuoteItem(
                     )
                 }
 
-                IconButton(onClick = { onFavoriteClick(quote,author) }) {
-                    Icon(
-                        imageVector = Icons.Default.Favorite,
-                        contentDescription = "Favorite",
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-
                 IconButton(onClick = onShareClick) {
                     Icon(
                         imageVector = Icons.Default.Share,
@@ -98,8 +90,15 @@ fun QuoteItem(
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
+
+                IconButton(onClick = { onDeleteClick() }) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
     }
 }
-
