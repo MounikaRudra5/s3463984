@@ -28,7 +28,6 @@ fun FavoriteScreen(
                     onCopyClick = {},
                     onShareClick = {},
                     onDeleteClick = {viewModel.deleteFavoriteQuote(favoriteQuote)
-                        Toast.makeText(context,"Clicked on Delete", Toast.LENGTH_SHORT).show()
                     }
                 )
             }

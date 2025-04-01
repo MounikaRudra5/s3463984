@@ -52,17 +52,22 @@ class HomeViewModel @Inject constructor(private val repository: FavoriteQuoteRep
 
     fun addFavorite(quote: FavoriteQuote) {
         viewModelScope.launch {
-            val generatedId = repository.addFavoriteQuote(quote)
-            val updatedQuote = quote.copy(id = generatedId)
             db.collection(Constants.USER)
                 .document(getUserId())
                 .collection(Constants.FAV_QUOTES)
-                .document(updatedQuote.id.toString())
-                .set(updatedQuote, SetOptions.merge())
+                .add(quote)
+                .addOnSuccessListener { docRef->
+                    val documentId = docRef.id
+                    val updatedQuote = quote.copy(fireStoreId = documentId)
+                    docRef.set(updatedQuote, SetOptions.merge())
+                    viewModelScope.launch {
+                        repository.addFavoriteQuote(updatedQuote)
+                    }
+                }
         }
     }
 
     fun getUserId():String{
-        return auth.currentUser?.uid ?: "12"
+        return auth.currentUser?.uid ?: ""
     }
 }

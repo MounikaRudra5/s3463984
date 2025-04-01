@@ -68,6 +68,16 @@ fun FavQuoteItem(
                 textAlign = TextAlign.End,
                 modifier = Modifier.fillMaxWidth()
             )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = favoriteQuote.fireStoreId,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.tertiary,
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth()
+            )
 
             Spacer(modifier = Modifier.height(12.dp))
 

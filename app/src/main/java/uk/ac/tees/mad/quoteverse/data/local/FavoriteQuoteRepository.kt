@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import uk.ac.tees.mad.quoteverse.model.FavoriteQuote
 
 interface FavoriteQuoteRepository {
-    suspend fun addFavoriteQuote(quote: FavoriteQuote):Int
+    suspend fun addFavoriteQuote(quote: FavoriteQuote)
     fun getFavoriteQuotes(userId: String): Flow<List<FavoriteQuote>>
     suspend fun removeFavoriteQuote(quote: FavoriteQuote)
 }
