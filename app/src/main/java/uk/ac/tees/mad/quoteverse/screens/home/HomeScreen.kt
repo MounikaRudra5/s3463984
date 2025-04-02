@@ -53,7 +53,8 @@ fun HomeScreen(
                             viewModel.addFavorite(FavoriteQuote(
                                 userId = viewModel.getUserId(),
                                 quote = q,
-                                author = a
+                                author = a,
+                                date = System.currentTimeMillis()
                             ))
                         },
                         {},

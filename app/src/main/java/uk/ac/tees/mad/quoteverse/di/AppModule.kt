@@ -1,4 +1,4 @@
-package uk.ac.tees.mad.quoteverse
+package uk.ac.tees.mad.quoteverse.di
 
 import android.content.Context
 import dagger.Module

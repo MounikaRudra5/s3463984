@@ -9,5 +9,6 @@ data class FavoriteQuoteEntity(
     val fireStoreId:String,
     val userId:String,
     val quote:String,
-    val author:String
+    val author:String,
+    val date:Long
 )

@@ -5,5 +5,6 @@ data class FavoriteQuote(
     val fireStoreId :String = "",
     val userId: String = "",
     val quote: String = "",
-    val author: String = ""
+    val author: String = "",
+    val date:Long = 0
 )

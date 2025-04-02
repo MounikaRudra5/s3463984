@@ -11,7 +11,8 @@ class FavoriteQuoteRepositoryImpl(private val dao:FavoriteQuoteDao):FavoriteQuot
                 fireStoreId = quote.fireStoreId,
                 userId = quote.userId,
                 quote = quote.quote,
-                author = quote.author
+                author = quote.author,
+                date = quote.date
             )
         )
     }
@@ -24,7 +25,8 @@ class FavoriteQuoteRepositoryImpl(private val dao:FavoriteQuoteDao):FavoriteQuot
                     id = entity.id,
                     userId = entity.userId,
                     quote = entity.quote,
-                    author = entity.author
+                    author = entity.author,
+                    date = entity.date
                 )
             }
         }
@@ -37,7 +39,8 @@ class FavoriteQuoteRepositoryImpl(private val dao:FavoriteQuoteDao):FavoriteQuot
                 id = quote.id,
                 userId = quote.userId,
                 quote = quote.quote,
-                author = quote.author
+                author = quote.author,
+                date = quote.date
             )
         )
     }
