@@ -32,9 +32,9 @@ import uk.ac.tees.mad.quoteverse.R
 fun QuoteItem(
     quote: String,
     author: String,
-    onCopyClick: () -> Unit,
+    onCopyClick: (String) -> Unit,
     onFavoriteClick: (String,String) -> Unit,
-    onShareClick: () -> Unit,
+    onShareClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -75,7 +75,7 @@ fun QuoteItem(
                 modifier = Modifier.width(150.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                IconButton(onClick = onCopyClick) {
+                IconButton(onClick = { onCopyClick(quote) }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.baseline_content_copy_24),
                         contentDescription = "Copy",
@@ -91,7 +91,7 @@ fun QuoteItem(
                     )
                 }
 
-                IconButton(onClick = onShareClick) {
+                IconButton(onClick = { onShareClick(quote) }) {
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = "Share",

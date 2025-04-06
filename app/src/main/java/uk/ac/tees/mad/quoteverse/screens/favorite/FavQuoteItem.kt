@@ -32,8 +32,8 @@ import uk.ac.tees.mad.quoteverse.model.FavoriteQuote
 @Composable
 fun FavQuoteItem(
     favoriteQuote: FavoriteQuote,
-    onCopyClick: () -> Unit,
-    onShareClick: () -> Unit,
+    onCopyClick: (String) -> Unit,
+    onShareClick: (String) -> Unit,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -75,7 +75,7 @@ fun FavQuoteItem(
                 modifier = Modifier.width(150.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                IconButton(onClick = onCopyClick) {
+                IconButton(onClick = { onCopyClick(favoriteQuote.quote) }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.baseline_content_copy_24),
                         contentDescription = "Copy",
@@ -83,7 +83,7 @@ fun FavQuoteItem(
                     )
                 }
 
-                IconButton(onClick = onShareClick) {
+                IconButton(onClick = { onShareClick(favoriteQuote.quote) }) {
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = "Share",

@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import uk.ac.tees.mad.quoteverse.utils.Utils
 import uk.ac.tees.mad.quoteverse.viewmodel.FavoriteViewModel
 
 @Composable
@@ -54,8 +55,8 @@ fun FavoriteScreen(
             items(quoteList){favoriteQuote->
                 FavQuoteItem(
                     favoriteQuote = favoriteQuote,
-                    onCopyClick = {},
-                    onShareClick = {},
+                    onCopyClick = {Utils.copyToClipboard(context,it)},
+                    onShareClick = {Utils.shareText(context,it)},
                     onDeleteClick = {viewModel.deleteFavoriteQuote(favoriteQuote)
                     }
                 )

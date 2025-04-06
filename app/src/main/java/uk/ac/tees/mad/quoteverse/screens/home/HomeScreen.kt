@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,6 +21,7 @@ import androidx.navigation.NavController
 import uk.ac.tees.mad.quoteverse.model.FavoriteQuote
 import uk.ac.tees.mad.quoteverse.screens.mainscreen.SearchBar
 import uk.ac.tees.mad.quoteverse.utils.Constants
+import uk.ac.tees.mad.quoteverse.utils.Utils
 import uk.ac.tees.mad.quoteverse.viewmodel.HomeViewModel
 
 @Composable
@@ -30,6 +32,7 @@ fun HomeScreen(
     ) {
     val quotes by viewModel.quotes.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
+    val context = LocalContext.current
     Box(modifier = modifier
         .fillMaxSize()
     ){
@@ -48,7 +51,7 @@ fun HomeScreen(
                     QuoteItem(
                         quote.q,
                         quote.a,
-                        {},
+                        {Utils.copyToClipboard(context,it )},
                         {q,a->
                             viewModel.addFavorite(FavoriteQuote(
                                 userId = viewModel.getUserId(),
@@ -57,7 +60,7 @@ fun HomeScreen(
                                 date = System.currentTimeMillis()
                             ))
                         },
-                        {},
+                        {Utils.shareText(context, it)},
                         modifier = Modifier.clickable {
                             navController.navigate(Constants.QUOTEDETAILSCREEN+"/"+index)
                         }
