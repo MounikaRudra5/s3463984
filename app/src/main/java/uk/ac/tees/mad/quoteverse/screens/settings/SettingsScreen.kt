@@ -1,49 +1,86 @@
 package uk.ac.tees.mad.quoteverse.screens.settings
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
-import uk.ac.tees.mad.quoteverse.utils.Constants
 
 @Composable
 fun SettingsScreen(
     navController: NavController,
     modifier: Modifier = Modifier) {
-    val auth: FirebaseAuth = Firebase.auth
-    Box(
+
+    var showEditNameSheet by remember { mutableStateOf(false) }
+    var showResetDialog by remember { mutableStateOf(false) }
+    var isDarkMode by remember { mutableStateOf(false) }
+
+    Column(
         modifier = modifier
-        .fillMaxSize()
+            .padding(horizontal = 12.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ){
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text("Settings Screen")
-            Spacer(Modifier.height(12.dp))
-            Button(onClick = {
-                auth.signOut()
-                navController.navigate(Constants.LOGINSCREEN){
-                    popUpTo(Constants.MAINSCREEN){
-                        inclusive = true
-                    }
-                }
-            }) {
-                Text("Log out")
-            }
+        Text(
+            text = "Settings",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        ProfileSection("Test Name") {
+            showEditNameSheet = true
         }
+        HorizontalDivider()
+
+        SettingsOption(icon = Icons.Default.Lock, title = "Reset Password") {
+            showResetDialog = true
+        }
+
+        DarkModeOption(isDarkMode) {
+            isDarkMode = it
+        }
+
+        SettingsOption(icon = Icons.Default.Delete, title = "Delete Account") {
+
+        }
+
+        SettingsOption(icon = Icons.AutoMirrored.Filled.ExitToApp, title = "Log Out") {
+
+        }
+    }
+
+    if (showEditNameSheet) {
+        EditNameBottomSheet(
+            currentName = "Test Name",
+            onSave = { newName ->
+                showEditNameSheet = false
+            },
+            onDismiss = { showEditNameSheet = false }
+        )
+    }
+
+    if (showResetDialog) {
+        ResetPasswordDialog(
+            onResetPassword = { email ->
+                showResetDialog = false
+            },
+            onDismiss = { showResetDialog = false }
+        )
     }
 }
