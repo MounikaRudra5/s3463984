@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,12 +21,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import uk.ac.tees.mad.quoteverse.utils.Constants
+import uk.ac.tees.mad.quoteverse.viewmodel.SettingsViewModel
 
 @Composable
 fun SettingsScreen(
+    viewModel: SettingsViewModel,
     navController: NavController,
     modifier: Modifier = Modifier) {
-
+    val name by viewModel.name.collectAsState()
+    val isEmailSent by viewModel.isEmailSent.collectAsState()
     var showEditNameSheet by remember { mutableStateOf(false) }
     var showResetDialog by remember { mutableStateOf(false) }
     var isDarkMode by remember { mutableStateOf(false) }
@@ -43,7 +48,7 @@ fun SettingsScreen(
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        ProfileSection("Test Name") {
+        ProfileSection(name) {
             showEditNameSheet = true
         }
         HorizontalDivider()
@@ -61,14 +66,20 @@ fun SettingsScreen(
         }
 
         SettingsOption(icon = Icons.AutoMirrored.Filled.ExitToApp, title = "Log Out") {
-
+            viewModel.logOut()
+            navController.navigate(Constants.LOGINSCREEN){
+                popUpTo(Constants.MAINSCREEN){
+                    inclusive = true
+                }
+            }
         }
     }
 
     if (showEditNameSheet) {
         EditNameBottomSheet(
-            currentName = "Test Name",
+            currentName = name,
             onSave = { newName ->
+                viewModel.changeUserName(newName)
                 showEditNameSheet = false
             },
             onDismiss = { showEditNameSheet = false }
@@ -77,10 +88,14 @@ fun SettingsScreen(
 
     if (showResetDialog) {
         ResetPasswordDialog(
+            isEmailSent = isEmailSent,
             onResetPassword = { email ->
-                showResetDialog = false
+                viewModel.resetPassword(email)
             },
-            onDismiss = { showResetDialog = false }
+            onDismiss = {
+                showResetDialog = false
+                viewModel.setIsEmailSent(false)
+            }
         )
     }
 }

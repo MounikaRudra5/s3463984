@@ -16,9 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ResetPasswordDialog(onResetPassword: (String) -> Unit, onDismiss: () -> Unit) {
+fun ResetPasswordDialog(
+    isEmailSent: Boolean,
+    onResetPassword: (String) -> Unit,
+    onDismiss: () -> Unit
+) {
     var email by remember { mutableStateOf("") }
-    var isEmailSent by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -43,7 +46,6 @@ fun ResetPasswordDialog(onResetPassword: (String) -> Unit, onDismiss: () -> Unit
                 Button(
                     onClick = {
                         onResetPassword(email)
-                        isEmailSent = true
                     }
                 ) {
                     Text("Send")
