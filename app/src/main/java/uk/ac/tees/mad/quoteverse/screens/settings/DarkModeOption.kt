@@ -28,7 +28,7 @@ import uk.ac.tees.mad.quoteverse.R
 @Composable
 fun DarkModeOption(
     isDarkMode: Boolean,
-    onToggle: (Boolean) -> Unit
+    onToggle: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -61,8 +61,11 @@ fun DarkModeOption(
             }
             Switch(
                 checked = isDarkMode,
-                onCheckedChange = onToggle,
-                colors = SwitchDefaults.colors(checkedThumbColor = MaterialTheme.colorScheme.primary)
+                onCheckedChange = { onToggle() },
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = MaterialTheme.colorScheme.surface,
+                    uncheckedThumbColor = MaterialTheme.colorScheme.surface
+                )
             )
         }
     }

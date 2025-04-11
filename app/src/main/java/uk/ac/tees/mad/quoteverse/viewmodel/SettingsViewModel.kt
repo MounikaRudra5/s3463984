@@ -10,14 +10,18 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import uk.ac.tees.mad.quoteverse.data.local.ThemePreferenceManager
 import uk.ac.tees.mad.quoteverse.utils.Constants
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor():ViewModel() {
+class SettingsViewModel @Inject constructor(
+    private val themePreferenceManager: ThemePreferenceManager
+):ViewModel() {
 
     private var auth: FirebaseAuth = Firebase.auth
     private var db : FirebaseFirestore = Firebase.firestore
@@ -27,6 +31,12 @@ class SettingsViewModel @Inject constructor():ViewModel() {
 
     private val _isEmailSent = MutableStateFlow(false)
     val isEmailSent:StateFlow<Boolean> get() = _isEmailSent
+
+    val isDarkTheme = themePreferenceManager.themePreference.stateIn(
+        viewModelScope,
+        SharingStarted.Lazily,
+        false
+    )
 
     init {
         viewModelScope.launch {
@@ -61,10 +71,10 @@ class SettingsViewModel @Inject constructor():ViewModel() {
         viewModelScope.launch {
             auth.sendPasswordResetEmail(email)
                 .addOnSuccessListener {
-                    _isEmailSent.value = false
+                    _isEmailSent.value = true
                 }
                 .addOnFailureListener {
-                    _isEmailSent.value = false
+                    _isEmailSent.value = true
                     Log.e("change password", "Error in password reset")
                 }
         }
@@ -76,5 +86,11 @@ class SettingsViewModel @Inject constructor():ViewModel() {
 
     private fun getUserId():String{
         return auth.currentUser?.uid ?: ""
+    }
+
+    fun toggleTheme() {
+        viewModelScope.launch {
+            themePreferenceManager.saveThemePreference(!isDarkTheme.value)
+        }
     }
 }
