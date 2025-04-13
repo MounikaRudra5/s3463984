@@ -11,13 +11,14 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +36,19 @@ fun SettingsScreen(
     var showEditNameSheet by remember { mutableStateOf(false) }
     var showResetDialog by remember { mutableStateOf(false) }
     val isDarkMode by viewModel.isDarkTheme.collectAsState()
+    val isDeleted by viewModel.accountDeleted.collectAsState()
+    val showProgressbar by viewModel.showProgressbar.collectAsState()
+    val context  = LocalContext.current
+
+    LaunchedEffect(isDeleted) {
+        if (isDeleted) {
+            navController.navigate(Constants.LOGINSCREEN){
+                popUpTo(Constants.MAINSCREEN){
+                    inclusive = true
+                }
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -63,7 +77,7 @@ fun SettingsScreen(
         }
 
         SettingsOption(icon = Icons.Default.Delete, title = "Delete Account") {
-
+            viewModel.deleteUser(context)
         }
 
         SettingsOption(icon = Icons.AutoMirrored.Filled.ExitToApp, title = "Log Out") {
@@ -98,5 +112,9 @@ fun SettingsScreen(
                 viewModel.setIsEmailSent(false)
             }
         )
+    }
+
+    if(showProgressbar){
+        LoadingDialog()
     }
 }

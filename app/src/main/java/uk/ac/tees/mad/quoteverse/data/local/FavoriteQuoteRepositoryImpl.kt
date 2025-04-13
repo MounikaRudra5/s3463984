@@ -44,4 +44,8 @@ class FavoriteQuoteRepositoryImpl(private val dao:FavoriteQuoteDao):FavoriteQuot
             )
         )
     }
+
+    override suspend fun deleteAllQuotesByUser(userId: String) {
+        dao.deleteAllQuotesByUser(userId)
+    }
 }

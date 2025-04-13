@@ -20,9 +20,9 @@ import uk.ac.tees.mad.quoteverse.viewmodel.SettingsViewModel
 
 @Composable
 fun MainScreen(
+    homeViewModel: HomeViewModel,
     navController: NavController
 ) {
-    val homeViewModel:HomeViewModel = hiltViewModel()
     val favoriteViewModel:FavoriteViewModel = hiltViewModel()
     val settingsViewModel:SettingsViewModel = hiltViewModel()
     var selectedItem by rememberSaveable { mutableIntStateOf(0) }

@@ -15,12 +15,14 @@ import uk.ac.tees.mad.quoteverse.screens.mainscreen.MainScreen
 import uk.ac.tees.mad.quoteverse.screens.splashscreen.SplashScreen
 import uk.ac.tees.mad.quoteverse.utils.Constants
 import uk.ac.tees.mad.quoteverse.viewmodel.AuthenticationViewModel
+import uk.ac.tees.mad.quoteverse.viewmodel.HomeViewModel
 
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun MyAppNavigation() {
     val navController = rememberNavController()
     val authenticationViewModel:AuthenticationViewModel = hiltViewModel()
+    val homeViewModel:HomeViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = Constants.SPLASHSCREEN) {
         composable(Constants.SPLASHSCREEN) {
@@ -28,7 +30,7 @@ fun MyAppNavigation() {
         }
 
         composable(Constants.MAINSCREEN) {
-            MainScreen(navController)
+            MainScreen(homeViewModel,navController)
         }
 
         composable(Constants.LOGINSCREEN){
@@ -45,7 +47,7 @@ fun MyAppNavigation() {
         )
         { backStackEntry ->
             val index = backStackEntry.arguments?.getInt("index") ?: 0
-            QuoteDetailsScreen(index)
+            QuoteDetailsScreen(homeViewModel,index)
         }
     }
 }

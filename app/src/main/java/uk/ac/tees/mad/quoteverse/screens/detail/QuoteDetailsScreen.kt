@@ -7,14 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import uk.ac.tees.mad.quoteverse.viewmodel.HomeViewModel
 
 @Composable
 fun QuoteDetailsScreen(
+    viewModel: HomeViewModel,
     startIndex: Int
 ) {
-    val viewModel:HomeViewModel = hiltViewModel()
     val quotes by viewModel.quotes.collectAsState()
     val pagerState = rememberPagerState(
         initialPage = startIndex,
