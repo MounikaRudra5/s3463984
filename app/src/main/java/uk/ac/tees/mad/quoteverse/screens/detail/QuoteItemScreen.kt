@@ -39,9 +39,9 @@ import uk.ac.tees.mad.quoteverse.R
 fun QuoteItemScreen(
     quote: String,
     author: String,
-    onCopyClick: () -> Unit,
+    onCopyClick: (String) -> Unit,
     onFavoriteClick: () -> Unit,
-    onShareClick: () -> Unit,
+    onShareClick: (String) -> Unit,
 ) {
     var visible by remember { mutableStateOf(false) }
 
@@ -111,7 +111,7 @@ fun QuoteItemScreen(
             modifier = Modifier.align(Alignment.BottomEnd)
                 .padding(end = 16.dp, bottom = 66.dp)
         ) {
-            IconButton(onClick = onCopyClick) {
+            IconButton(onClick = { onCopyClick(quote) }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.baseline_content_copy_24),
                     contentDescription = "Copy",
@@ -127,7 +127,7 @@ fun QuoteItemScreen(
                 )
             }
 
-            IconButton(onClick = onShareClick) {
+            IconButton(onClick = { onShareClick(quote) }) {
                 Icon(
                     imageVector = Icons.Default.Share,
                     contentDescription = "Share",

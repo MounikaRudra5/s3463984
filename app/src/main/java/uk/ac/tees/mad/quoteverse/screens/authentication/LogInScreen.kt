@@ -99,7 +99,7 @@ fun LogInScreen(
             } else {
                 TextButton(onClick = {
                     if (viewModel.validateLoginForm(context)) {
-                        viewModel.logInUser()
+                        viewModel.logInUser(context)
                     }
                 },
                     modifier = Modifier.fillMaxWidth(),
@@ -108,7 +108,7 @@ fun LogInScreen(
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    Text("Sign In")
+                    Text("Sign In", color = MaterialTheme.colorScheme.surface)
                 }
                 Row(
                     horizontalArrangement = Arrangement.Center,

@@ -55,7 +55,7 @@ class AuthenticationViewModel :ViewModel() {
         _loginSuccess.value = false
     }
 
-    fun createNewUser(){
+    fun createNewUser(context: Context){
         _isLoading.value = true
         auth.createUserWithEmailAndPassword(_email.value, _password.value)
             .addOnCompleteListener { task->
@@ -71,15 +71,21 @@ class AuthenticationViewModel :ViewModel() {
                             "id" to uid
                         ), SetOptions.merge())
                 }
+                else{
+                    Toast.makeText(context,"Failed to sign up, please check network", Toast.LENGTH_SHORT).show()
+                }
             }
     }
 
-    fun logInUser(){
+    fun logInUser(context: Context){
         _isLoading.value = true
         auth.signInWithEmailAndPassword(_email.value, _password.value)
             .addOnCompleteListener {task->
                 _isLoading.value = false
                 _loginSuccess.value = task.isSuccessful
+                if(!task.isSuccessful){
+                    Toast.makeText(context,"Failed to login, please check network", Toast.LENGTH_SHORT).show()
+                }
             }
     }
 

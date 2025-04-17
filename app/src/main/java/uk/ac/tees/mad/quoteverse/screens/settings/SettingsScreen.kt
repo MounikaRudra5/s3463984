@@ -94,7 +94,7 @@ fun SettingsScreen(
         EditNameBottomSheet(
             currentName = name,
             onSave = { newName ->
-                viewModel.changeUserName(newName)
+                viewModel.changeUserName(context,newName)
                 showEditNameSheet = false
             },
             onDismiss = { showEditNameSheet = false }
@@ -105,7 +105,7 @@ fun SettingsScreen(
         ResetPasswordDialog(
             isEmailSent = isEmailSent,
             onResetPassword = { email ->
-                viewModel.resetPassword(email)
+                viewModel.resetPassword(context,email)
             },
             onDismiss = {
                 showResetDialog = false

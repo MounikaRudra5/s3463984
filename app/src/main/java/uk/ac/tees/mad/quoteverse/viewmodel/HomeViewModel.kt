@@ -1,5 +1,7 @@
 package uk.ac.tees.mad.quoteverse.viewmodel
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
@@ -50,7 +52,7 @@ class HomeViewModel @Inject constructor(private val repository: FavoriteQuoteRep
         }
     }
 
-    fun addFavorite(quote: FavoriteQuote) {
+    fun addFavorite(context: Context,quote: FavoriteQuote) {
         viewModelScope.launch {
             db.collection(Constants.USER)
                 .document(getUserId())
@@ -63,6 +65,9 @@ class HomeViewModel @Inject constructor(private val repository: FavoriteQuoteRep
                     viewModelScope.launch {
                         repository.addFavoriteQuote(updatedQuote)
                     }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context,"Failed to add to favorite, please check network",Toast.LENGTH_SHORT ).show()
                 }
         }
     }

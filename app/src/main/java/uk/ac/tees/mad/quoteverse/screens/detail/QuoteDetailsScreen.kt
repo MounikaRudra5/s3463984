@@ -7,6 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import uk.ac.tees.mad.quoteverse.model.FavoriteQuote
+import uk.ac.tees.mad.quoteverse.utils.Utils
 import uk.ac.tees.mad.quoteverse.viewmodel.HomeViewModel
 
 @Composable
@@ -15,6 +18,7 @@ fun QuoteDetailsScreen(
     startIndex: Int
 ) {
     val quotes by viewModel.quotes.collectAsState()
+    val context = LocalContext.current
     val pagerState = rememberPagerState(
         initialPage = startIndex,
         initialPageOffsetFraction = 0f,
@@ -27,9 +31,16 @@ fun QuoteDetailsScreen(
     ) { page ->
         QuoteItemScreen(quote = quotes[page].q,
             author = quotes[page].a,
-            {},
-            {},
-            {}
+            {Utils.copyToClipboard(context, it)},
+            {viewModel.addFavorite(context,
+                FavoriteQuote(
+                    userId = viewModel.getUserId(),
+                    quote = quotes[page].q,
+                    author = quotes[page].a,
+                    date = System.currentTimeMillis()
+                )
+            )},
+            {Utils.shareText(context,it)}
             )
     }
 }

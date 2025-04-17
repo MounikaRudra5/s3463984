@@ -67,7 +67,7 @@ class SettingsViewModel @Inject constructor(
     }
 
 
-    fun changeUserName(newName:String){
+    fun changeUserName(context: Context,newName:String){
         viewModelScope.launch {
             try {
                 val userDocRef = db.collection(Constants.USER).document(getUserId())
@@ -76,6 +76,7 @@ class SettingsViewModel @Inject constructor(
                     _name.value = newName
                 }
             } catch (e: Exception) {
+                Toast.makeText(context,"Failed to change name, please check network",Toast.LENGTH_SHORT ).show()
                Log.e("Name change", e.message.toString())
             }
         }
@@ -85,7 +86,7 @@ class SettingsViewModel @Inject constructor(
         auth.signOut()
     }
 
-    fun resetPassword(email:String){
+    fun resetPassword(context: Context,email:String){
         viewModelScope.launch {
             auth.sendPasswordResetEmail(email)
                 .addOnSuccessListener {
@@ -93,6 +94,7 @@ class SettingsViewModel @Inject constructor(
                 }
                 .addOnFailureListener {
                     _isEmailSent.value = true
+                    Toast.makeText(context,"Failed to reset password, please check network",Toast.LENGTH_SHORT ).show()
                     Log.e("change password", "Error in password reset")
                 }
         }
@@ -138,21 +140,24 @@ class SettingsViewModel @Inject constructor(
                                         _accountDeleted.value = false
                                     } finally {
                                         _showProgressbar.value = false
+                                        Toast.makeText(context,"Failed to delete, please check network",Toast.LENGTH_SHORT ).show()
                                     }
                                 }
                             } else {
                                 Log.e("DeleteUser", "Error deleting from Firebase Authentication", authTask.exception)
+                                Toast.makeText(context,"Failed to delete, please check network",Toast.LENGTH_SHORT ).show()
                                 _showProgressbar.value = false
                             }
                         }
                     } else {
                         Log.e("DeleteUser", "Error deleting user from Firestore", task.exception)
+                        Toast.makeText(context,"Failed to delete, please check network",Toast.LENGTH_SHORT ).show()
                         _showProgressbar.value = false  // Hide progress bar on failure
                     }
                 }
         } else {
             Log.e("DeleteUser", "User ID is empty")
-            _showProgressbar.value = false  // Hide progress bar if user ID is empty
+            _showProgressbar.value = false
         }
     }
 

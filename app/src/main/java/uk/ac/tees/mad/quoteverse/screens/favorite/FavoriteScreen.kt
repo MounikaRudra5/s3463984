@@ -57,7 +57,8 @@ fun FavoriteScreen(
                     favoriteQuote = favoriteQuote,
                     onCopyClick = {Utils.copyToClipboard(context,it)},
                     onShareClick = {Utils.shareText(context,it)},
-                    onDeleteClick = {viewModel.deleteFavoriteQuote(favoriteQuote)
+                    onDeleteClick = {viewModel.deleteFavoriteQuote(context,favoriteQuote)
+                        quoteList = quoteList.minus(favoriteQuote)
                     }
                 )
             }

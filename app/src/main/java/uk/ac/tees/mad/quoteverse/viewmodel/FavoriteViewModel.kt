@@ -1,6 +1,8 @@
 package uk.ac.tees.mad.quoteverse.viewmodel
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
@@ -70,7 +72,7 @@ class FavoriteViewModel @Inject constructor(
             }
     }
 
-    fun deleteFavoriteQuote(favQuote:FavoriteQuote){
+    fun deleteFavoriteQuote(context: Context,favQuote:FavoriteQuote){
         viewModelScope.launch {
             val docRef = db.collection(Constants.USER)
                 .document(getUserId())
@@ -83,6 +85,8 @@ class FavoriteViewModel @Inject constructor(
                     }
                 }
                     .addOnFailureListener { e ->
+                        Toast.makeText(context,"Failed to delete, please check network",
+                            Toast.LENGTH_SHORT ).show()
                         Log.e("Firestore", "Error deleting document", e)
                     }
         }

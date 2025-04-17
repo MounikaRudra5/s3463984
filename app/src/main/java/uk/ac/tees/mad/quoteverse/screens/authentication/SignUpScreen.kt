@@ -108,7 +108,7 @@ fun SignUpScreen(
             else{
                 TextButton(onClick = {
                     if (viewModel.validateSignupForm(context)) {
-                        viewModel.createNewUser()
+                        viewModel.createNewUser(context)
                     }
                 },
                     modifier = Modifier.fillMaxWidth(),
@@ -117,7 +117,7 @@ fun SignUpScreen(
                     ),
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    Text("Sign Up")
+                    Text("Sign Up", color = MaterialTheme.colorScheme.surface)
                 }
                 Row(
                     horizontalArrangement = Arrangement.Center,
@@ -135,7 +135,6 @@ fun SignUpScreen(
                     )
                 }
             }
-
         }
     }
 }
